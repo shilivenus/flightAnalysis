@@ -743,11 +743,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\peter.shi\\source\\repos\\AirlineFlightDataService\\AirlineFlightDataService\\AirlineFlightDataService.csproj",
+      "projectUniqueName": "C:\\flight\\flightAnalysis\\AirlineFlightDataService\\AirlineFlightDataService\\AirlineFlightDataService.csproj",
       "projectName": "AirlineFlightDataService",
-      "projectPath": "C:\\Users\\peter.shi\\source\\repos\\AirlineFlightDataService\\AirlineFlightDataService\\AirlineFlightDataService.csproj",
+      "projectPath": "C:\\flight\\flightAnalysis\\AirlineFlightDataService\\AirlineFlightDataService\\AirlineFlightDataService.csproj",
       "packagesPath": "C:\\Users\\peter.shi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\peter.shi\\source\\repos\\AirlineFlightDataService\\AirlineFlightDataService\\obj\\",
+      "outputPath": "C:\\flight\\flightAnalysis\\AirlineFlightDataService\\AirlineFlightDataService\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

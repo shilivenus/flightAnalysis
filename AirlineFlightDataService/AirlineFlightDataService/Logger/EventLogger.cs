@@ -8,17 +8,17 @@ namespace AirlineFlightDataService.Logger
 {
     class EventLogger : ILogger
     {
-        public void LogEventDetails(List<Event> events)
-        {
-            var processedEventType = events.Select(e => e.EventType).Distinct().ToList();
-        }
-
-        public void LogBatchProcessTime(DateTime starTime)
+        public void LogEventDetails(Dictionary<string, int> eventDetailsList)
         {
             throw new NotImplementedException();
         }
 
-        public void LogFailedEventDetails(List<Event> failedEvents)
+        public void LogBatchProcessTime(TimeSpan timeSpent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LogFailedEventDetails(List<string> failedEventList, int totalFailed)
         {
             throw new NotImplementedException();
         }
