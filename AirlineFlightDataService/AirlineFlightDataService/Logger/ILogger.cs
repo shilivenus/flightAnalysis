@@ -6,8 +6,6 @@ namespace AirlineFlightDataService.Logger
 {
     public interface ILogger
     {
-        void LogEventDetails(Dictionary<string, int> eventDetailsList);
-        void LogBatchProcessTime(TimeSpan timeSpent);
-        void LogFailedEventDetails(List<string> failedEventList, int totalFailed);
+        void LogEventInfo(Dictionary<string, int> eventDetailsList, TimeSpan timeSpent, List<string> failedEventList, int totalFailed);
     }
 }

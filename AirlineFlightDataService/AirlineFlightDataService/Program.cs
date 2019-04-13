@@ -4,7 +4,9 @@ using System.Threading;
 using AirlineFlightDataService.Logger;
 using AirlineFlightDataService.Processor;
 using AirlineFlightDataService.Reader;
+using AirlineFlightDataService.Validator;
 using AirlineFlightDataService.Validator.Rules;
+using Ninject;
 
 namespace AirlineFlightDataService
 {
@@ -12,12 +14,12 @@ namespace AirlineFlightDataService
     {
         static void Main(string[] args)
         {
-            EventReader reader = new EventReader(new EventLogger());
-            Validator.Validator validator = new Validator.Validator(new List<IRule>{new FlightMatchingRule(), new PassengerMatchingRule()});
-            EventProcessor processor = new EventProcessor(validator);
+            var kernel = new StandardKernel(new bindings());
+
+            EventProcessor processor = kernel.Get<EventProcessor>();
             PathConfiguration config = new PathConfiguration();
 
-            Watcher watcher = new Watcher(reader, processor, config);
+            Watcher watcher = new Watcher(processor, config);
 
             watcher.Run();
         }

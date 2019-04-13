@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Configuration;
 
 namespace AirlineFlightDataService
 {
     public class PathConfiguration
     {
-        public string _destination = @"C:\ProcessorRoot\02-RAW";
-        public string _source = @"C:\ProcessorRoot\01-Input";
-        public string _exceptionArrivalFilePath = @"C:\ProcessorRoot\03-Exception\Arrival";
-        public string _exceptionDepartureFilePath = @"C:\ProcessorRoot\03-Exception\Departure";
-        public string _curatedArrivalFilePath = @"C:\ProcessorRoot\04-Curated\Arrival";
-        public string _curatedDepartureFilePath = @"C:\ProcessorRoot\04-Curated\Departure";
+        public string _destination = ConfigurationManager.AppSettings["DestinationFileFolder"];
+        public string _source = ConfigurationManager.AppSettings["SourceFileFolder"];
+        public string _exceptionArrivalFilePath = ConfigurationManager.AppSettings["ExceptionArrivalFilePath"];
+        public string _exceptionDepartureFilePath = ConfigurationManager.AppSettings["ExceptionDepartureFilePath"];
+        public string _curatedArrivalFilePath = ConfigurationManager.AppSettings["CuratedArrivalFilePath"];
+        public string _curatedDepartureFilePath = ConfigurationManager.AppSettings["CuratedDepartureFilePath"];
     }
 }

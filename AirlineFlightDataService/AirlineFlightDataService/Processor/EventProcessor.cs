@@ -4,8 +4,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using AirlineFlightDataService.Enum;
+using AirlineFlightDataService.Logger;
 using AirlineFlightDataService.Module;
-using AirlineFlightDataService.ValidationRule;
+using AirlineFlightDataService.Reader;
+using AirlineFlightDataService.Validator;
 using Newtonsoft.Json;
 
 namespace AirlineFlightDataService.Processor
@@ -13,27 +15,32 @@ namespace AirlineFlightDataService.Processor
     class EventProcessor : IEventProcessor
     {
         private readonly IValidator _validator;
+        private readonly ILogger _logger;
+        private readonly IEventReader _eventReader;
 
-        public EventProcessor(IValidator validator)
+        public EventProcessor(IValidator validator, ILogger logger, IEventReader eventReader)
         {
             _validator = validator;
+            _logger = logger;
+            _eventReader = eventReader;
         }
 
-        public void Process(List<Event> events, PathConfiguration pathConfiguration)
+        public void Process(string filePath, PathConfiguration pathConfiguration)
         {
+            Dictionary<string, int> eventDetailsList = new Dictionary<string, int>();
+            List<string> failedEventList = new List<string>();
+            int failedEventCount = 0;
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
+
+            var events = _eventReader.Read(filePath);
 
             foreach (var flightEvent in events)
             {
                 string timeStamp = DateTime.Now.ToString("yyyyMMddHHmmssFFF");
-
-                Dictionary<string, int> eventDetailsList = new Dictionary<string, int>();
-                List<string> failedEventList = new List<string>();
+                
                 string arrivalEventTypeName = EventType.Arrival.ToString();
                 string departureEventTypeName = EventType.Departure.ToString();
-
-                int failedEventCount = 0;
 
                 switch (flightEvent.EventType)
                 {
@@ -84,6 +91,8 @@ namespace AirlineFlightDataService.Processor
 
             stopWatch.Stop();
             TimeSpan ts = stopWatch.Elapsed;
+
+            _logger.LogEventInfo(eventDetailsList, ts, failedEventList, failedEventCount);
         }
 
         private void CreateFileHelper(string file, string filePath, string timeStamp, string eventType)

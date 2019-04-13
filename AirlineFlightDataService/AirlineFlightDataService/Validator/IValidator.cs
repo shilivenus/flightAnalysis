@@ -1,6 +1,6 @@
 ﻿using AirlineFlightDataService.Module;
 
-namespace AirlineFlightDataService.ValidationRule
+namespace AirlineFlightDataService.Validator
 {
     public interface IValidator
     {
