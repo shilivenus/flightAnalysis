@@ -1,0 +1,11 @@
+C:\flightAnalysis\AirlineFlightDataService\AirlineFlightDataService\bin\Debug\netcoreapp2.2\AirlineFlightDataService.dll.config
+C:\flightAnalysis\AirlineFlightDataService\AirlineFlightDataService\bin\Debug\netcoreapp2.2\AirlineFlightDataService.deps.json
+C:\flightAnalysis\AirlineFlightDataService\AirlineFlightDataService\bin\Debug\netcoreapp2.2\AirlineFlightDataService.runtimeconfig.json
+C:\flightAnalysis\AirlineFlightDataService\AirlineFlightDataService\bin\Debug\netcoreapp2.2\AirlineFlightDataService.runtimeconfig.dev.json
+C:\flightAnalysis\AirlineFlightDataService\AirlineFlightDataService\bin\Debug\netcoreapp2.2\AirlineFlightDataService.dll
+C:\flightAnalysis\AirlineFlightDataService\AirlineFlightDataService\bin\Debug\netcoreapp2.2\AirlineFlightDataService.pdb
+C:\flightAnalysis\AirlineFlightDataService\AirlineFlightDataService\obj\Debug\netcoreapp2.2\AirlineFlightDataService.csproj.CoreCompileInputs.cache
+C:\flightAnalysis\AirlineFlightDataService\AirlineFlightDataService\obj\Debug\netcoreapp2.2\AirlineFlightDataService.AssemblyInfoInputs.cache
+C:\flightAnalysis\AirlineFlightDataService\AirlineFlightDataService\obj\Debug\netcoreapp2.2\AirlineFlightDataService.AssemblyInfo.cs
+C:\flightAnalysis\AirlineFlightDataService\AirlineFlightDataService\obj\Debug\netcoreapp2.2\AirlineFlightDataService.dll
+C:\flightAnalysis\AirlineFlightDataService\AirlineFlightDataService\obj\Debug\netcoreapp2.2\AirlineFlightDataService.pdb

@@ -5,6 +5,6 @@ namespace AirlineFlightDataService.Processor
 {
     public interface IEventProcessor
     {
-        void Process(List<Event> events, PathConfiguration pathConfiguration);
+        void Process(string filePath, PathConfiguration pathConfiguration);
     }
 }

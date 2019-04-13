@@ -8,12 +8,10 @@ namespace AirlineFlightDataService
     public class Watcher
     {
         private readonly PathConfiguration _pathConfiguration;
-        private readonly IEventReader _eventReader;
         private readonly IEventProcessor _eventProcessor;
 
-        public Watcher(IEventReader eventReader, IEventProcessor eventProcessor, PathConfiguration pathConfiguration)
+        public Watcher(IEventProcessor eventProcessor, PathConfiguration pathConfiguration)
         {
-            _eventReader = eventReader;
             _eventProcessor = eventProcessor;
             _pathConfiguration = pathConfiguration;
         }
@@ -62,12 +60,10 @@ namespace AirlineFlightDataService
 
         private void OnCreated(object source, FileSystemEventArgs e)
         {
-            // Specify what is done when a file is renamed.
+            // Specify what is done when a file is created.
             Console.WriteLine($"File: {e.FullPath}");
 
-            var result = _eventReader.Read(e.FullPath);
-
-            _eventProcessor.Process(result, _pathConfiguration);
+            _eventProcessor.Process(e.FullPath, _pathConfiguration);
 
             File.Copy(Path.Combine(_pathConfiguration._source, e.Name), Path.Combine(_pathConfiguration._destination, e.Name));
         }
