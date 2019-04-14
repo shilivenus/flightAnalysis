@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using AirlineFlightDataService.Logger;
 using AirlineFlightDataService.Processor;
-using AirlineFlightDataService.Reader;
-using AirlineFlightDataService.Validator;
-using AirlineFlightDataService.Validator.Rules;
+using AirlineFlightDataService.Watcher;
 using Ninject;
 
 namespace AirlineFlightDataService
@@ -14,14 +9,21 @@ namespace AirlineFlightDataService
     {
         static void Main(string[] args)
         {
-            var kernel = new StandardKernel(new bindings());
+            try
+            {
+                var kernel = new StandardKernel(new bindings());
 
-            EventProcessor processor = kernel.Get<EventProcessor>();
-            PathConfiguration config = new PathConfiguration();
+                IEventProcessor processor = kernel.Get<IEventProcessor>();
+                PathConfiguration config = new PathConfiguration();
 
-            Watcher watcher = new Watcher(processor, config);
+                IWatcher watcher = new FlightWatcher(processor, config);
 
-            watcher.Run();
+                watcher.Run();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

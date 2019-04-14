@@ -3,6 +3,7 @@ using AirlineFlightDataService.Processor;
 using AirlineFlightDataService.Reader;
 using AirlineFlightDataService.Validator;
 using AirlineFlightDataService.Validator.Rules;
+using AirlineFlightDataService.Watcher;
 using Ninject.Modules;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace AirlineFlightDataService
             Bind<IRule>().To<FlightMatchingRule>();
             Bind<IRule>().To<PassengerMatchingRule>();
             Bind<ILogger>().To<EventLogger>();
+            Bind<IWatcher>().To<FlightWatcher>();
         }
     }
 }
