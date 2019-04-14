@@ -17,9 +17,16 @@ namespace AirlineFlightDataService.Logger
 
         private void LogEventDetails(Dictionary<string, int> eventDetailsList)
         {
-            foreach(var eventDetail in eventDetailsList)
+            if(eventDetailsList.Count == 0)
             {
-                Console.WriteLine($"{eventDetail.Key} has {eventDetail.Value}");
+                Console.WriteLine("There is no event been processed.");
+            }
+            else
+            {
+                foreach (var eventDetail in eventDetailsList)
+                {
+                    Console.WriteLine($"{eventDetail.Key} has {eventDetail.Value}");
+                }
             }
         }
 
@@ -30,7 +37,7 @@ namespace AirlineFlightDataService.Logger
 
         private void LogFailedEventDetails(List<string> failedEventList, int totalFailed)
         {
-            if(totalFailed == 0)
+            if(totalFailed == 0 || failedEventList.Count == 0)
             {
                 Console.WriteLine("There is no failed event");
             }

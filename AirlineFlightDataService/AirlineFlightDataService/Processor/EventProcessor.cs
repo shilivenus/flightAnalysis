@@ -86,6 +86,8 @@ namespace AirlineFlightDataService.Processor
                             failedEventCount++;
                         }
                         break;
+                    default:
+                        throw new Exception($"{flightEvent.EventType} cannot be processed.");
                 }
             }
 
@@ -97,6 +99,12 @@ namespace AirlineFlightDataService.Processor
 
         private void CreateFileHelper(string file, string filePath, string timeStamp, string eventType)
         {
+            if (!Directory.Exists(filePath))
+                throw new Exception($"{filePath} does not exist.");
+
+            if (file == null)
+                throw new Exception("There is no file been created.");
+
             var destination = Path.Combine(filePath, $"{eventType}-{timeStamp}");
             File.WriteAllText(destination, file);
         }
