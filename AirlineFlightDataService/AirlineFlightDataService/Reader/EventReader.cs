@@ -7,9 +7,18 @@ namespace AirlineFlightDataService.Reader
 {
     public class EventReader : IEventReader
     {
-        public List<Event> Read(string filePath)
+        public List<Event> Read(string filePath, List<string> errors)
         {
-            return JsonConvert.DeserializeObject<List<Event>>(File.ReadAllText(filePath));
+            
+            var settings = new JsonSerializerSettings()
+            {
+                Error = (s, e) => {
+                    errors.Add(e.ErrorContext.Error.Message);
+                    e.ErrorContext.Handled = true;
+                }
+            };
+
+            return JsonConvert.DeserializeObject<List<Event>>(File.ReadAllText(filePath), settings);
         }
     }
 }

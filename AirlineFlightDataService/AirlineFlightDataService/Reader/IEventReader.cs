@@ -5,6 +5,6 @@ namespace AirlineFlightDataService.Reader
 {
     public interface IEventReader
     {
-        List<Event> Read(string filePath);
+        List<Event> Read(string filePath, List<string> errors);
     }
 }

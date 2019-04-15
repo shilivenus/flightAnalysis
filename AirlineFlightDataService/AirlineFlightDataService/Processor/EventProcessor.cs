@@ -31,64 +31,80 @@ namespace AirlineFlightDataService.Processor
             int failedEventCount = 0;
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
+            List<string> errors = new List<string>();
 
-            var events = _eventReader.Read(filePath);
+            var events = _eventReader.Read(filePath, errors);
 
-            foreach (var flightEvent in events)
+            if(errors != null && errors.Count != 0)
             {
-                string timeStamp = DateTime.Now.ToString("yyyyMMddHHmmssFFF");
-                
-                string arrivalEventTypeName = EventType.Arrival.ToString();
-                string departureEventTypeName = EventType.Departure.ToString();
-
-                switch (flightEvent.EventType)
+                foreach (var error in errors)
                 {
-                    case EventType.Arrival:
-                        if (!eventDetailsList.TryAdd(arrivalEventTypeName, 1))
-                        {
-                            var count = eventDetailsList[arrivalEventTypeName]++;
-                            eventDetailsList[arrivalEventTypeName] = count;
-                        }
-
-                        var arrivalEventJson = JsonConvert.SerializeObject(flightEvent);
-
-                        if (_validator.IsValidate(flightEvent))
-                        {
-                            CreateFileHelper(arrivalEventJson, pathConfiguration.CuratedArrivalFilePath, timeStamp,
-                                arrivalEventTypeName);
-                        }
-                        else
-                        {
-                            CreateFileHelper(arrivalEventJson, pathConfiguration.ExceptionArrivalFilePath, timeStamp,
-                                arrivalEventTypeName);
-                            failedEventList.Add($"{arrivalEventTypeName}-{timeStamp}");
-                            failedEventCount++;
-                        }
-                        break;
-                    case EventType.Departure:
-                        if (!eventDetailsList.TryAdd(departureEventTypeName, 1))
-                        {
-                            var count = eventDetailsList[departureEventTypeName]++;
-                            eventDetailsList[departureEventTypeName] = count;
-                        }
-                        var departureJson = JsonConvert.SerializeObject(flightEvent);
-                        if (_validator.IsValidate(flightEvent))
-                        {
-                            CreateFileHelper(departureJson, pathConfiguration.CuratedDepartureFilePath, timeStamp,
-                                departureEventTypeName);
-                        }
-                        else
-                        {
-                            CreateFileHelper(departureJson, pathConfiguration.ExceptionDepartureFilePath, timeStamp,
-                                departureEventTypeName);
-                            failedEventList.Add($"{departureEventTypeName}-{timeStamp}");
-                            failedEventCount++;
-                        }
-                        break;
-                    default:
-                        throw new Exception($"{flightEvent.EventType} cannot be processed.");
+                    Console.WriteLine($"{filePath} meet following errors {error}");
                 }
             }
+                
+            if(events != null)
+            {
+                foreach (var flightEvent in events)
+                {
+                    string timeStamp = DateTime.Now.ToString("yyyyMMddHHmmssFFF");
+
+                    string arrivalEventTypeName = EventType.Arrival.ToString();
+                    string departureEventTypeName = EventType.Departure.ToString();
+
+                    switch (flightEvent.EventType)
+                    {
+                        case EventType.Arrival:
+                            if (!eventDetailsList.TryAdd(arrivalEventTypeName, 1))
+                            {
+                                var count = eventDetailsList[arrivalEventTypeName]++;
+                                eventDetailsList[arrivalEventTypeName] = count;
+                            }
+
+                            var arrivalEventJson = JsonConvert.SerializeObject(flightEvent);
+
+                            if (_validator.IsValidate(flightEvent))
+                            {
+                                CreateFileHelper(arrivalEventJson, pathConfiguration.CuratedArrivalFilePath, timeStamp,
+                                    arrivalEventTypeName);
+                            }
+                            else
+                            {
+                                CreateFileHelper(arrivalEventJson, pathConfiguration.ExceptionArrivalFilePath, timeStamp,
+                                    arrivalEventTypeName);
+                                failedEventList.Add($"{arrivalEventTypeName}-{timeStamp}");
+                                failedEventCount++;
+                            }
+                            break;
+                        case EventType.Departure:
+                            if (!eventDetailsList.TryAdd(departureEventTypeName, 1))
+                            {
+                                var count = eventDetailsList[departureEventTypeName]++;
+                                eventDetailsList[departureEventTypeName] = count;
+                            }
+                            var departureJson = JsonConvert.SerializeObject(flightEvent);
+                            if (_validator.IsValidate(flightEvent))
+                            {
+                                CreateFileHelper(departureJson, pathConfiguration.CuratedDepartureFilePath, timeStamp,
+                                    departureEventTypeName);
+                            }
+                            else
+                            {
+                                CreateFileHelper(departureJson, pathConfiguration.ExceptionDepartureFilePath, timeStamp,
+                                    departureEventTypeName);
+                                failedEventList.Add($"{departureEventTypeName}-{timeStamp}");
+                                failedEventCount++;
+                            }
+                            break;
+                        default:
+                            throw new Exception($"{flightEvent.EventType} cannot be processed.");
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine($"{filePath} cannot be converted to json");
+            }            
 
             stopWatch.Stop();
             TimeSpan ts = stopWatch.Elapsed;
