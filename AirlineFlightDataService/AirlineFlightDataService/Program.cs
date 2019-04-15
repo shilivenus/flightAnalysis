@@ -1,5 +1,4 @@
 ﻿using System;
-using AirlineFlightDataService.Processor;
 using AirlineFlightDataService.Watcher;
 using Ninject;
 
@@ -11,12 +10,9 @@ namespace AirlineFlightDataService
         {
             try
             {
-                var kernel = new StandardKernel(new bindings());
+                var kernel = new StandardKernel(new Bindings());
 
-                IEventProcessor processor = kernel.Get<IEventProcessor>();
-                PathConfiguration config = new PathConfiguration();
-
-                IWatcher watcher = new FlightWatcher(processor, config);
+                IWatcher watcher = kernel.Get<IWatcher>();
 
                 watcher.Run();
             }

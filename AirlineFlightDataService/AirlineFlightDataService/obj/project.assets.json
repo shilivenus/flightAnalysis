@@ -1643,23 +1643,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\shili\\.nuget\\packages\\": {},
+    "C:\\Users\\peter.shi\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\flightAnalysis\\AirlineFlightDataService\\AirlineFlightDataService\\AirlineFlightDataService.csproj",
+      "projectUniqueName": "C:\\flight\\flightAnalysis\\AirlineFlightDataService\\AirlineFlightDataService\\AirlineFlightDataService.csproj",
       "projectName": "AirlineFlightDataService",
-      "projectPath": "C:\\flightAnalysis\\AirlineFlightDataService\\AirlineFlightDataService\\AirlineFlightDataService.csproj",
-      "packagesPath": "C:\\Users\\shili\\.nuget\\packages\\",
-      "outputPath": "C:\\flightAnalysis\\AirlineFlightDataService\\AirlineFlightDataService\\obj\\",
+      "projectPath": "C:\\flight\\flightAnalysis\\AirlineFlightDataService\\AirlineFlightDataService\\AirlineFlightDataService.csproj",
+      "packagesPath": "C:\\Users\\peter.shi\\.nuget\\packages\\",
+      "outputPath": "C:\\flight\\flightAnalysis\\AirlineFlightDataService\\AirlineFlightDataService\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\shili\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\peter.shi\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1667,7 +1667,8 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {},
+        "https://pkgs.dev.azure.com/enett/_packaging/eNettInternalFeed/nuget/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.2": {

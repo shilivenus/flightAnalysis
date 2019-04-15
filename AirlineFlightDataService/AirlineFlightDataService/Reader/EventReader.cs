@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using AirlineFlightDataService.Logger;
 using AirlineFlightDataService.Module;
 using Newtonsoft.Json;
 
