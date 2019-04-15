@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using AirlineFlightDataService.Module;
+﻿using AirlineFlightDataService.Configuration;
 
 namespace AirlineFlightDataService.Processor
 {
     public interface IEventProcessor
     {
-        void Process(string filePath, PathConfiguration pathConfiguration);
+        void Process(string filePath, IFilePathConfiguration pathConfiguration);
     }
 }

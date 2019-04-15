@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Text;
+using AirlineFlightDataService.Configuration;
 using AirlineFlightDataService.Enum;
 using AirlineFlightDataService.Logger;
-using AirlineFlightDataService.Module;
 using AirlineFlightDataService.Reader;
 using AirlineFlightDataService.Validator;
 using Newtonsoft.Json;
@@ -25,7 +24,7 @@ namespace AirlineFlightDataService.Processor
             _eventReader = eventReader;
         }
 
-        public void Process(string filePath, PathConfiguration pathConfiguration)
+        public void Process(string filePath, IFilePathConfiguration pathConfiguration)
         {
             Dictionary<string, int> eventDetailsList = new Dictionary<string, int>();
             List<string> failedEventList = new List<string>();
@@ -55,12 +54,12 @@ namespace AirlineFlightDataService.Processor
 
                         if (_validator.IsValidate(flightEvent))
                         {
-                            CreateFileHelper(arrivalEventJson, pathConfiguration._curatedArrivalFilePath, timeStamp,
+                            CreateFileHelper(arrivalEventJson, pathConfiguration.CuratedArrivalFilePath, timeStamp,
                                 arrivalEventTypeName);
                         }
                         else
                         {
-                            CreateFileHelper(arrivalEventJson, pathConfiguration._exceptionArrivalFilePath, timeStamp,
+                            CreateFileHelper(arrivalEventJson, pathConfiguration.ExceptionArrivalFilePath, timeStamp,
                                 arrivalEventTypeName);
                             failedEventList.Add($"{arrivalEventTypeName}-{timeStamp}");
                             failedEventCount++;
@@ -75,12 +74,12 @@ namespace AirlineFlightDataService.Processor
                         var departureJson = JsonConvert.SerializeObject(flightEvent);
                         if (_validator.IsValidate(flightEvent))
                         {
-                            CreateFileHelper(departureJson, pathConfiguration._curatedDepartureFilePath, timeStamp,
+                            CreateFileHelper(departureJson, pathConfiguration.CuratedDepartureFilePath, timeStamp,
                                 departureEventTypeName);
                         }
                         else
                         {
-                            CreateFileHelper(departureJson, pathConfiguration._exceptionDepartureFilePath, timeStamp,
+                            CreateFileHelper(departureJson, pathConfiguration.ExceptionDepartureFilePath, timeStamp,
                                 departureEventTypeName);
                             failedEventList.Add($"{departureEventTypeName}-{timeStamp}");
                             failedEventCount++;

@@ -5,16 +5,16 @@ using AirlineFlightDataService.Validator;
 using AirlineFlightDataService.Validator.Rules;
 using AirlineFlightDataService.Watcher;
 using Ninject.Modules;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Configuration;
+using AirlineFlightDataService.Configuration;
 
 namespace AirlineFlightDataService
 {
-    public class bindings : NinjectModule
+    public class Bindings : NinjectModule
     {
         public override void Load()
         {
+            Bind<IFilePathConfiguration>().ToMethod(context => (FilePathSection)ConfigurationManager.GetSection("filePath"));
             Bind<IValidator>().To<FlightValidator>();
             Bind<IEventReader>().To<EventReader>();
             Bind<IEventProcessor>().To<EventProcessor>();

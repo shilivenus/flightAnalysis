@@ -1,16 +1,16 @@
 ﻿using System;
 using System.IO;
+using AirlineFlightDataService.Configuration;
 using AirlineFlightDataService.Processor;
-using AirlineFlightDataService.Reader;
 
 namespace AirlineFlightDataService.Watcher
 {
     public class FlightWatcher : IWatcher
     {
-        private readonly PathConfiguration _pathConfiguration;
+        private readonly IFilePathConfiguration _pathConfiguration;
         private readonly IEventProcessor _eventProcessor;
 
-        public FlightWatcher(IEventProcessor eventProcessor, PathConfiguration pathConfiguration)
+        public FlightWatcher(IEventProcessor eventProcessor, IFilePathConfiguration pathConfiguration)
         {
             _eventProcessor = eventProcessor;
             _pathConfiguration = pathConfiguration;
@@ -23,10 +23,10 @@ namespace AirlineFlightDataService.Watcher
                 // Create a new FileSystemWatcher and set its properties.
                 using (FileSystemWatcher watcher = new FileSystemWatcher())
                 {
-                    if (!Directory.Exists(_pathConfiguration._source))
-                        throw new Exception($"{_pathConfiguration._source} does not exist.");
+                    if (!Directory.Exists(_pathConfiguration.SourceFileFolder))
+                        throw new Exception($"{_pathConfiguration.SourceFileFolder} does not exist.");
 
-                    watcher.Path = _pathConfiguration._source;
+                    watcher.Path = _pathConfiguration.SourceFileFolder;
 
                     // Watch for changes in LastAccess and LastWrite times, and
                     // the renaming of files or directories.
@@ -68,14 +68,14 @@ namespace AirlineFlightDataService.Watcher
 
             _eventProcessor.Process(e.FullPath, _pathConfiguration);
 
-            var destinationFilePath = Path.Combine(_pathConfiguration._destination, e.Name);
+            var destinationFilePath = Path.Combine(_pathConfiguration.DestinationFileFolder, e.Name);
 
             if (File.Exists(destinationFilePath))
             {
                 throw new Exception($"{destinationFilePath} has been processed before.");
             }
 
-            File.Copy(Path.Combine(_pathConfiguration._source, e.Name), destinationFilePath);
+            File.Copy(Path.Combine(_pathConfiguration.SourceFileFolder, e.Name), destinationFilePath);
         }
     }
 }
