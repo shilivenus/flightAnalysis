@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using AirlineFlightDataService.Module;
 using Newtonsoft.Json;
@@ -7,9 +8,10 @@ namespace AirlineFlightDataService.Reader
 {
     public class EventReader : IEventReader
     {
-        public List<Event> Read(string filePath, List<string> errors)
+        public EventReaderResult Read(string filePath)
         {
-            
+            List<string> errors = new List<string>();
+
             var settings = new JsonSerializerSettings()
             {
                 Error = (s, e) => {
@@ -18,7 +20,9 @@ namespace AirlineFlightDataService.Reader
                 }
             };
 
-            return JsonConvert.DeserializeObject<List<Event>>(File.ReadAllText(filePath), settings);
+            var events = JsonConvert.DeserializeObject<List<Event>>(File.ReadAllText(filePath), settings);
+
+            return new EventReaderResult(events, errors);
         }
     }
 }

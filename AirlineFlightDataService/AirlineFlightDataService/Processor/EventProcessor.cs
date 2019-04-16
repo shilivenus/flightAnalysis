@@ -24,28 +24,41 @@ namespace AirlineFlightDataService.Processor
             _eventReader = eventReader;
         }
 
-        public void Process(string filePath, IFilePathConfiguration pathConfiguration)
+        public void Process(string filePath, string fileName, IFilePathConfiguration pathConfiguration)
         {
             Dictionary<string, int> eventDetailsList = new Dictionary<string, int>();
             List<string> failedEventList = new List<string>();
             int failedEventCount = 0;
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
-            List<string> errors = new List<string>();
 
-            var events = _eventReader.Read(filePath, errors);
+            var result = _eventReader.Read(filePath);
 
-            if(errors != null && errors.Count != 0)
+            if(result?.Errors != null && result.Errors.Count != 0)
             {
-                foreach (var error in errors)
+                foreach (var error in result.Errors)
                 {
                     Console.WriteLine($"{filePath} meet following errors {error}");
                 }
+
+                if (!Directory.Exists(pathConfiguration.ExceptionFileFolder))
+                {
+                    throw new Exception($"{pathConfiguration.ExceptionFileFolder} does not exist.");
+                }
+
+                var exceptionFilePath = Path.Combine(pathConfiguration.ExceptionFileFolder, fileName);
+
+                if (File.Exists(exceptionFilePath))
+                {
+                    throw new Exception($"{exceptionFilePath} has existed.");
+                }
+
+                File.Copy(filePath, exceptionFilePath);
             }
                 
-            if(events != null)
+            if(result?.Events != null)
             {
-                foreach (var flightEvent in events)
+                foreach (var flightEvent in result.Events)
                 {
                     string timeStamp = DateTime.Now.ToString("yyyyMMddHHmmssFFF");
 

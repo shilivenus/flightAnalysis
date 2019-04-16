@@ -66,7 +66,12 @@ namespace AirlineFlightDataService.Watcher
             // Specify what is done when a file is created.
             Console.WriteLine($"File: {e.FullPath}");
 
-            _eventProcessor.Process(e.FullPath, _pathConfiguration);
+            _eventProcessor.Process(e.FullPath, e.Name, _pathConfiguration);
+
+            if (!Directory.Exists(_pathConfiguration.DestinationFileFolder))
+            {
+                throw new Exception($"{_pathConfiguration.DestinationFileFolder} does not exist.");
+            }
 
             var destinationFilePath = Path.Combine(_pathConfiguration.DestinationFileFolder, e.Name);
 

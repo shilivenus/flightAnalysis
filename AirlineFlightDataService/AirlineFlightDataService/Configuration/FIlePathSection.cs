@@ -10,6 +10,9 @@ namespace AirlineFlightDataService.Configuration
         [ConfigurationProperty("sourceFileFolder", IsRequired = true)]
         public string SourceFileFolder => (string)this["sourceFileFolder"];
 
+        [ConfigurationProperty("exceptionFileFolder", IsRequired = true)]
+        public string ExceptionFileFolder => (string)this["exceptionFileFolder"];
+
         [ConfigurationProperty("exceptionArrivalFilePath", IsRequired = true)]
         public string ExceptionArrivalFilePath => (string)this["exceptionArrivalFilePath"];
 
