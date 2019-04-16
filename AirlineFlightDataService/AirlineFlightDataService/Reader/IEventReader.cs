@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using AirlineFlightDataService.Module;
+﻿using AirlineFlightDataService.Module;
 
 namespace AirlineFlightDataService.Reader
 {

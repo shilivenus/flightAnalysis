@@ -2,7 +2,7 @@
 
 namespace AirlineFlightDataService.Validator.Rules
 {
-    class FlightMatchingRule : IRule
+    public class FlightMatchingRule : IRule
     {
         public bool IsMatched(Event flightEvent)
         {

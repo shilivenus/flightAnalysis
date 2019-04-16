@@ -4,7 +4,7 @@ using AirlineFlightDataService.Validator.Rules;
 
 namespace AirlineFlightDataService.Validator
 {
-    class FlightValidator : IValidator
+    public class FlightValidator : IValidator
     {
         private readonly IEnumerable<IRule> _rules;
 
