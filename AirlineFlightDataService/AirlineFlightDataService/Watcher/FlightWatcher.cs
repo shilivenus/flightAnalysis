@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using AirlineFlightDataService.Configuration;
+using AirlineFlightDataService.EventHandler;
 using AirlineFlightDataService.Processor;
 
 namespace AirlineFlightDataService.Watcher
@@ -8,12 +9,12 @@ namespace AirlineFlightDataService.Watcher
     public class FlightWatcher : IWatcher
     {
         private readonly IFilePathConfiguration _pathConfiguration;
-        private readonly IEventProcessor _eventProcessor;
+        private readonly IEventHandler _eventHandler;
 
-        public FlightWatcher(IEventProcessor eventProcessor, IFilePathConfiguration pathConfiguration)
+        public FlightWatcher(IFilePathConfiguration pathConfiguration, IEventHandler eventHandler)
         {
-            _eventProcessor = eventProcessor;
             _pathConfiguration = pathConfiguration;
+            _eventHandler = eventHandler;
         }
 
         public void Run()
@@ -28,18 +29,14 @@ namespace AirlineFlightDataService.Watcher
 
                     watcher.Path = _pathConfiguration.SourceFileFolder;
 
-                    // Watch for changes in LastAccess and LastWrite times, and
-                    // the renaming of files or directories.
-                    watcher.NotifyFilter = NotifyFilters.LastAccess
-                                         | NotifyFilters.LastWrite
-                                         | NotifyFilters.FileName
-                                         | NotifyFilters.DirectoryName;
+                    // Watch for create new files.
+                    watcher.NotifyFilter = NotifyFilters.FileName;
 
-                    // Only watch text files.
+                    // Only watch json files.
                     watcher.Filter = "*.json";
 
                     // Add event handlers.
-                    watcher.Created += OnCreated;
+                    watcher.Created += _eventHandler.OnCreated;
 
                     // Begin watching.
                     watcher.EnableRaisingEvents = true;
@@ -54,33 +51,6 @@ namespace AirlineFlightDataService.Watcher
                 Console.WriteLine(e.Message);
                 throw;
             }
-        }
-
-        // Define the event handlers.
-        private void OnCreated(object source, FileSystemEventArgs e)
-        {
-            // Check file existence before sent to process.
-            if (!File.Exists(e.FullPath))
-                throw new Exception("There is no file been created.");
-
-            // Specify what is done when a file is created.
-            Console.WriteLine($"File: {e.FullPath}");
-
-            _eventProcessor.Process(e.FullPath, e.Name, _pathConfiguration);
-
-            if (!Directory.Exists(_pathConfiguration.DestinationFileFolder))
-            {
-                throw new Exception($"{_pathConfiguration.DestinationFileFolder} does not exist.");
-            }
-
-            var destinationFilePath = Path.Combine(_pathConfiguration.DestinationFileFolder, e.Name);
-
-            if (File.Exists(destinationFilePath))
-            {
-                throw new Exception($"{destinationFilePath} has been processed before.");
-            }
-
-            File.Copy(Path.Combine(_pathConfiguration.SourceFileFolder, e.Name), destinationFilePath);
         }
     }
 }

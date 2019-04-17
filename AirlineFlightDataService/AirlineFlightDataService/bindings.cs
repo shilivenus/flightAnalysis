@@ -7,6 +7,7 @@ using AirlineFlightDataService.Watcher;
 using Ninject.Modules;
 using System.Configuration;
 using AirlineFlightDataService.Configuration;
+using AirlineFlightDataService.EventHandler;
 
 namespace AirlineFlightDataService
 {
@@ -17,11 +18,12 @@ namespace AirlineFlightDataService
             Bind<IFilePathConfiguration>().ToMethod(context => (FilePathSection)ConfigurationManager.GetSection("filePath"));
             Bind<IValidator>().To<FlightValidator>();
             Bind<IEventReader>().To<EventReader>();
-            Bind<IEventProcessor>().To<EventProcessor>();
+            Bind<IEventProcessor>().To<FlightEventProcessor>();
             Bind<IRule>().To<FlightMatchingRule>();
             Bind<IRule>().To<PassengerMatchingRule>();
             Bind<ILogger>().To<EventLogger>();
             Bind<IWatcher>().To<FlightWatcher>();
+            Bind<IEventHandler>().To<FlightEventHandler>();
         }
     }
 }

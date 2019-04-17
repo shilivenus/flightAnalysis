@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using AirlineFlightDataService.Module;
 
 namespace AirlineFlightDataService.Logger
 {
-    class EventLogger : ILogger
+    public class EventLogger : ILogger
     {
-        public void LogEventInfo(Dictionary<string, int> eventDetailsList, TimeSpan timeSpent, List<string> failedEventList, int totalFailed)
-        {
-            LogEventDetails(eventDetailsList);
-            LogBatchProcessTime(timeSpent);
-            LogFailedEventDetails(failedEventList, totalFailed);
-        }
-
-        private void LogEventDetails(Dictionary<string, int> eventDetailsList)
+        public void LogEventDetails(Dictionary<string, int> eventDetailsList)
         {
             if(eventDetailsList.Count == 0)
             {
@@ -27,12 +21,12 @@ namespace AirlineFlightDataService.Logger
             }
         }
 
-        private void LogBatchProcessTime(TimeSpan timeSpent)
+        public void LogBatchProcessTime(TimeSpan timeSpent)
         {
             Console.WriteLine($"This batch takes {timeSpent} in total");
         }
 
-        private void LogFailedEventDetails(List<string> failedEventList, int totalFailed)
+        public void LogFailedEventDetails(List<string> failedEventList, int totalFailed)
         {
             if(totalFailed == 0 || failedEventList.Count == 0)
             {
@@ -48,6 +42,13 @@ namespace AirlineFlightDataService.Logger
                     Console.WriteLine(failedEvent);
                 }
             }
+        }
+
+        public void LogEventInfo(EventDetails eventDetails, TimeSpan timeSpent)
+        {
+            LogEventDetails(eventDetails.EventDetailsList);
+            LogBatchProcessTime(timeSpent);
+            LogFailedEventDetails(eventDetails.FailedEventList, eventDetails.FailedEventCount);
         }
     }
 }
