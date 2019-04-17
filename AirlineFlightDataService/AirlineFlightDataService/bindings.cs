@@ -8,6 +8,7 @@ using Ninject.Modules;
 using System.Configuration;
 using AirlineFlightDataService.Configuration;
 using AirlineFlightDataService.EventHandler;
+using AirlineFlightDataService.LogWriter;
 
 namespace AirlineFlightDataService
 {
@@ -21,9 +22,10 @@ namespace AirlineFlightDataService
             Bind<IEventProcessor>().To<FlightEventProcessor>();
             Bind<IRule>().To<FlightMatchingRule>();
             Bind<IRule>().To<PassengerMatchingRule>();
-            Bind<ILogger>().To<EventLogger>();
+            Bind<ILogger>().To<FlightEventLogger>();
             Bind<IWatcher>().To<FlightWatcher>();
             Bind<IEventHandler>().To<FlightEventHandler>();
+            Bind<ILogWriter>().To<ConsoleLogWriter>();
         }
     }
 }

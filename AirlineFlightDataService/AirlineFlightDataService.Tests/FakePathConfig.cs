@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AirlineFlightDataService.Configuration;
+﻿using AirlineFlightDataService.Configuration;
 
 namespace AirlineFlightDataService.Tests
 {

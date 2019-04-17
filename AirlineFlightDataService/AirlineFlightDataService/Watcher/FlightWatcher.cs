@@ -2,7 +2,6 @@
 using System.IO;
 using AirlineFlightDataService.Configuration;
 using AirlineFlightDataService.EventHandler;
-using AirlineFlightDataService.Processor;
 
 namespace AirlineFlightDataService.Watcher
 {

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AirlineFlightDataService.Configuration;
 using AirlineFlightDataService.EventHandler;
-using AirlineFlightDataService.Processor;
 using AirlineFlightDataService.Watcher;
 using AutoFixture;
 using Moq;
