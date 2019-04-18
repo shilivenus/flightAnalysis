@@ -3,6 +3,7 @@ using System.IO;
 using AirlineFlightDataService.EventHandler;
 using AirlineFlightDataService.Processor;
 using AutoFixture;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using Xunit;
 
@@ -16,13 +17,15 @@ namespace AirlineFlightDataService.Tests.EventHandler
             //Arrange
             var fixture = new Fixture();
 
-            var fakePathConfig = fixture.Build<FakePathConfig>().Create();
-
             var e = fixture.Build<FileSystemEventArgs>().Create();
 
             var mockEventHandler = new Mock<IEventProcessor>();
+            var mockConfig = new Mock<IConfiguration>();
 
-            var eventHandler = new FlightEventHandler(mockEventHandler.Object, fakePathConfig);
+            mockConfig.Setup(c => c["source"]).Returns("Test");
+            mockConfig.Setup(c => c["destination"]).Returns("Test");
+
+            var eventHandler = new FlightEventHandler(mockEventHandler.Object, mockConfig.Object);
 
             //Assert
             Assert.Throws<Exception>(() => eventHandler.OnCreated(new object(), e));

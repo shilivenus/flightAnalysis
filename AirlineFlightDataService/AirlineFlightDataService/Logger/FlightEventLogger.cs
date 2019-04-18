@@ -52,6 +52,11 @@ namespace AirlineFlightDataService.Logger
             }
         }
 
+        public void LogToConsole(string input)
+        {
+            _logWriter.WriteToConsole(input);
+        }
+
         /// <summary>
         /// Log List of event types that were processed, including count of events per type.
         /// Totoal duration for processing each batch.

@@ -1,5 +1,4 @@
 ﻿using System;
-using AirlineFlightDataService.Enum;
 using Newtonsoft.Json;
 
 namespace AirlineFlightDataService.Module
@@ -7,7 +6,7 @@ namespace AirlineFlightDataService.Module
     public class Event
     {
         [JsonProperty("eventType")]
-        public EventType EventType { get; set; }
+        public string EventType { get; set; }
 
         [JsonProperty("timeStamp")]
         public DateTime TimeStamp { get; set; }
