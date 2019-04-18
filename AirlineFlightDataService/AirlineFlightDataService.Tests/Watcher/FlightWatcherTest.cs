@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AirlineFlightDataService.Configuration;
 using AirlineFlightDataService.EventHandler;
-using AirlineFlightDataService.Processor;
 using AirlineFlightDataService.Watcher;
-using AutoFixture;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using Xunit;
 
@@ -17,13 +13,12 @@ namespace AirlineFlightDataService.Tests.Watcher
         public void ThrowExceptionWhenFolderDoseNotExist()
         {
             //Arrange
-            var fixture = new Fixture();
+            var mockEventHandler = new Mock<IEventHandler>();
+            var mockConfig = new Mock<IConfiguration>();
 
-            var fakePathConfig = fixture.Build<FakePathConfig>().Create();
+            mockConfig.Setup(c => c["source"]).Returns("Test");
 
-            var mockEventHandler = new Mock<IEventHandler>();            
-
-            var watcher = new FlightWatcher(fakePathConfig, mockEventHandler.Object);
+            var watcher = new FlightWatcher(mockEventHandler.Object, mockConfig.Object);
 
             //Assert
             Assert.Throws<Exception>(() => watcher.Run());

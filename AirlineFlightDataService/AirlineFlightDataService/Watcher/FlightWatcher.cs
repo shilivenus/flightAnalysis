@@ -1,20 +1,19 @@
 ﻿using System;
 using System.IO;
-using AirlineFlightDataService.Configuration;
 using AirlineFlightDataService.EventHandler;
-using AirlineFlightDataService.Processor;
+using Microsoft.Extensions.Configuration;
 
 namespace AirlineFlightDataService.Watcher
 {
     public class FlightWatcher : IWatcher
     {
-        private readonly IFilePathConfiguration _pathConfiguration;
         private readonly IEventHandler _eventHandler;
+        private readonly IConfiguration _configuration;
 
-        public FlightWatcher(IFilePathConfiguration pathConfiguration, IEventHandler eventHandler)
+        public FlightWatcher(IEventHandler eventHandler, IConfiguration configuration)
         {
-            _pathConfiguration = pathConfiguration;
             _eventHandler = eventHandler;
+            _configuration = configuration;
         }
 
         public void Run()
@@ -24,10 +23,12 @@ namespace AirlineFlightDataService.Watcher
                 // Create a new FileSystemWatcher and set its properties.
                 using (FileSystemWatcher watcher = new FileSystemWatcher())
                 {
-                    if (!Directory.Exists(_pathConfiguration.SourceFileFolder))
-                        throw new Exception($"{_pathConfiguration.SourceFileFolder} does not exist.");
+                    var sourceFileFolder = _configuration["source"];
 
-                    watcher.Path = _pathConfiguration.SourceFileFolder;
+                    if (!Directory.Exists(sourceFileFolder))
+                        throw new Exception($"{sourceFileFolder} does not exist.");
+
+                    watcher.Path = sourceFileFolder;
 
                     // Watch for create new files.
                     watcher.NotifyFilter = NotifyFilters.FileName;

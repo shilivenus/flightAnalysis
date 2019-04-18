@@ -1,25 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using AirlineFlightDataService.Configuration;
 using AirlineFlightDataService.Processor;
+using Microsoft.Extensions.Configuration;
 
 namespace AirlineFlightDataService.EventHandler
 {
     public class FlightEventHandler : IEventHandler
     {
-        private readonly IFilePathConfiguration _pathConfiguration;
         private readonly IEventProcessor _eventProcessor;
+        private readonly IConfiguration _configuration;
 
-        public FlightEventHandler(IEventProcessor eventProcessor, IFilePathConfiguration pathConfiguration)
+        public FlightEventHandler(IEventProcessor eventProcessor, IConfiguration configuration)
         {
             _eventProcessor = eventProcessor;
-            _pathConfiguration = pathConfiguration;
+            _configuration = configuration;
         }
 
         public void OnCreated(object source, FileSystemEventArgs e)
         {
+            var destinationFileFolder = _configuration["destination"];
+            var sourceFileFolder = _configuration["source"];
+
             // Check file existence before sent to process.
             if (!File.Exists(e.FullPath))
                 throw new Exception("There is no file been created.");
@@ -27,21 +28,21 @@ namespace AirlineFlightDataService.EventHandler
             // Specify what is done when a file is created.
             Console.WriteLine($"File: {e.FullPath}");
 
-            if (!Directory.Exists(_pathConfiguration.DestinationFileFolder))
+            if (!Directory.Exists(destinationFileFolder))
             {
-                throw new Exception($"{_pathConfiguration.DestinationFileFolder} does not exist.");
+                throw new Exception($"{destinationFileFolder} does not exist.");
             }
 
-            var destinationFilePath = Path.Combine(_pathConfiguration.DestinationFileFolder, e.Name);
+            var destinationFilePath = Path.Combine(destinationFileFolder, e.Name);
 
             if (File.Exists(destinationFilePath))
             {
                 throw new Exception($"{destinationFilePath} has been processed before.");
             }
 
-            File.Copy(Path.Combine(_pathConfiguration.SourceFileFolder, e.Name), destinationFilePath);
+            File.Copy(Path.Combine(sourceFileFolder, e.Name), destinationFilePath);
 
-            _eventProcessor.Process(e.FullPath, e.Name, _pathConfiguration);
+            _eventProcessor.Process(e.FullPath, e.Name);
         }
     }
 }

@@ -1,9 +1,7 @@
-﻿using AirlineFlightDataService.Configuration;
-
-namespace AirlineFlightDataService.Processor
+﻿namespace AirlineFlightDataService.Processor
 {
     public interface IEventProcessor
     {
-        void Process(string filePath, string fileName, IFilePathConfiguration pathConfiguration);
+        void Process(string filePath, string fileName);
     }
 }
