@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using AirlineFlightDataService.EventHandler;
-using AirlineFlightDataService.Logger;
-using AirlineFlightDataService.Module;
-using AirlineFlightDataService.Processor;
-using AirlineFlightDataService.Reader;
+﻿using AirlineFlightDataService.Business.EventHandler;
+using AirlineFlightDataService.Business.Logger;
+using AirlineFlightDataService.Business.Module;
+using AirlineFlightDataService.Business.Processor;
+using AirlineFlightDataService.Business.Reader;
 using AutoFixture;
 using Moq;
 using Xunit;

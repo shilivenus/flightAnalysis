@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using AirlineFlightDataService.Module;
-using AirlineFlightDataService.Validator;
-using AirlineFlightDataService.Validator.Rules;
+using AirlineFlightDataService.Business.Module;
+using AirlineFlightDataService.Business.Validator;
+using AirlineFlightDataService.Business.Validator.Rules;
 using AutoFixture;
 using Moq;
 using Xunit;

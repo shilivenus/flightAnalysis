@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using AirlineFlightDataService.Reader;
+using AirlineFlightDataService.Business.Reader;
 using Xunit;
 
 namespace AirlineFlightDataService.Tests.Reader

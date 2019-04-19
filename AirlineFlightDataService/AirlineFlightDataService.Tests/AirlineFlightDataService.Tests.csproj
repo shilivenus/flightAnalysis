@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AirlineFlightDataService\AirlineFlightDataService.csproj" />
+    <ProjectReference Include="..\AirlineFlightDataService.Business\AirlineFlightDataService.Business.csproj" />
   </ItemGroup>
 
 </Project>
