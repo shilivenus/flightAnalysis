@@ -1,5 +1,5 @@
-﻿using AirlineFlightDataService.Module;
-using AirlineFlightDataService.Validator.Rules;
+﻿using AirlineFlightDataService.Business.Module;
+using AirlineFlightDataService.Business.Validator.Rules;
 using AutoFixture;
 using Xunit;
 

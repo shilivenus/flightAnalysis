@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AirlineFlightDataService.EventHandler;
-using AirlineFlightDataService.Logger;
-using AirlineFlightDataService.Module;
+using AirlineFlightDataService.Business.EventHandler;
+using AirlineFlightDataService.Business.Logger;
+using AirlineFlightDataService.Business.Module;
 using AutoFixture;
 using Microsoft.Extensions.Configuration;
 using Moq;

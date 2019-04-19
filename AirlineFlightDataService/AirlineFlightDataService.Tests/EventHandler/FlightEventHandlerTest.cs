@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
-using AirlineFlightDataService.EventHandler;
-using AirlineFlightDataService.Logger;
-using AirlineFlightDataService.Processor;
+using AirlineFlightDataService.Business.EventHandler;
+using AirlineFlightDataService.Business.Logger;
+using AirlineFlightDataService.Business.Processor;
 using AutoFixture;
 using Microsoft.Extensions.Configuration;
 using Moq;

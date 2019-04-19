@@ -1,7 +1,7 @@
 ﻿using System;
-using AirlineFlightDataService.EventHandler;
-using AirlineFlightDataService.Logger;
-using AirlineFlightDataService.Watcher;
+using AirlineFlightDataService.Business.EventHandler;
+using AirlineFlightDataService.Business.Logger;
+using AirlineFlightDataService.Business.Watcher;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using Xunit;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using AirlineFlightDataService.Logger;
-using AirlineFlightDataService.LogWriter;
+using AirlineFlightDataService.Business.Logger;
+using AirlineFlightDataService.Business.LogWriter;
 using AutoFixture;
 using Moq;
 using Xunit;

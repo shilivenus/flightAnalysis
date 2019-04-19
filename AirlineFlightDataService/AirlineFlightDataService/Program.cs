@@ -1,7 +1,6 @@
 ﻿using System;
-using AirlineFlightDataService.Logger;
-using AirlineFlightDataService.LogWriter;
-using AirlineFlightDataService.Watcher;
+using AirlineFlightDataService.Business;
+using AirlineFlightDataService.Business.Watcher;
 using Ninject;
 
 namespace AirlineFlightDataService
