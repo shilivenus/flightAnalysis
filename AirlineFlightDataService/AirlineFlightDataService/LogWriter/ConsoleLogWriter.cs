@@ -4,9 +4,16 @@ namespace AirlineFlightDataService.LogWriter
 {
     public class ConsoleLogWriter : ILogWriter
     {
-        public void WriteToConsole(string input)
+        private readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
+        public void WriteInfoToConsole(string infoMessage)
         {
-            Console.WriteLine(input);
+            _logger.Info(infoMessage);
+        }
+
+        public void WriteErrorToConsole(Exception e, string errorMessage)
+        {
+            _logger.Error(e, errorMessage);
         }
     }
 }

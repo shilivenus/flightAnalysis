@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using AirlineFlightDataService.Logger;
 using AirlineFlightDataService.Module;
 using Microsoft.Extensions.Configuration;
 
@@ -8,10 +9,12 @@ namespace AirlineFlightDataService.EventHandler
     public class ErrorsProcessingHandler : IErrorsProcessingHandler
     {
         private readonly IConfiguration _configuration;
+        private readonly ILogger _logger;
 
-        public ErrorsProcessingHandler(IConfiguration configuration)
+        public ErrorsProcessingHandler(IConfiguration configuration, ILogger logger)
         {
             _configuration = configuration;
+            _logger = logger;
         }
 
         public void ProcessingErrors(string filePath, string fileName, EventReaderResult result)
@@ -20,7 +23,7 @@ namespace AirlineFlightDataService.EventHandler
 
             foreach (var error in result.Errors)
             {
-                Console.WriteLine($"{filePath} meet following errors {error}");
+                _logger.LogInfoToConsole($"{filePath} meet following errors: {error}");
             }
 
             if (!Directory.Exists(exceptionFileFolder))
