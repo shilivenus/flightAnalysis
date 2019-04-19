@@ -10,6 +10,11 @@ using Newtonsoft.Json;
 
 namespace AirlineFlightDataService.Business.EventHandler
 {
+    /// <summary>
+    /// Event handler to process the events from reader result. Using validator to valudate
+    /// each event. Based on validation result, writing new file to different folder, and log
+    /// infomation along the way. Return event details object in the end.
+    /// </summary>
     public class EventProcessingHandler : IEventProcessingHandler
     {
         private readonly IConfiguration _configuration;
@@ -23,6 +28,14 @@ namespace AirlineFlightDataService.Business.EventHandler
             _logger = logger;
         }
 
+        /// <summary>
+        /// Create new json file, using validator to validate each event. Based on
+        /// the result of validation to create new json file in different folder or 
+        /// log error message to console. Returning processed eventDetails object.
+        /// </summary>
+        /// <param name="eventDetails">Used to fill in event details</param>
+        /// <param name="result">Used to get each event</param>
+        /// <returns>Returns EventDetails object</returns>
         public EventDetails ProcessingEvent(EventDetails eventDetails, EventReaderResult result)
         {
             foreach (var flightEvent in result.Events)
@@ -53,6 +66,7 @@ namespace AirlineFlightDataService.Business.EventHandler
                         }
                     }
 
+                    // Count of events per type.
                     if (!eventDetails.EventDetailsList.TryAdd(flightEventTypeName, 1))
                     {
                         var count = ++eventDetails.EventDetailsList[flightEventTypeName];
@@ -61,6 +75,7 @@ namespace AirlineFlightDataService.Business.EventHandler
 
                     var arrivalEventJson = JsonConvert.SerializeObject(flightEvent);
 
+                    // Validate each event
                     if (_validator.IsValidate(flightEvent))
                     {
                         if (!String.IsNullOrEmpty(curatedFolder))
@@ -97,6 +112,13 @@ namespace AirlineFlightDataService.Business.EventHandler
             return eventDetails;
         }
 
+        /// <summary>
+        /// A helper to write the file into folder.
+        /// </summary>
+        /// <param name="file">File will be writen into destination folder</param>
+        /// <param name="filePath">File path of the original file</param>
+        /// <param name="timeStamp">Used to naming new file</param>
+        /// <param name="eventType">Used to naming new file</param>
         private void CreateFileHelper(string file, string filePath, string timeStamp, string eventType)
         {
             if (!Directory.Exists(filePath))

@@ -6,6 +6,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace AirlineFlightDataService.Business.Watcher
 {
+    /// <summary>
+    /// Keep watching one folder and use handler to process the file.
+    /// </summary>
     public class FlightWatcher : IWatcher
     {
         private readonly IEventHandler _eventHandler;
@@ -19,6 +22,9 @@ namespace AirlineFlightDataService.Business.Watcher
             _logger = logger;
         }
 
+        /// <summary>
+        /// Start watching one folder until user type 'q' to quite
+        /// </summary>
         public void Run()
         {
             try
@@ -26,8 +32,10 @@ namespace AirlineFlightDataService.Business.Watcher
                 // Create a new FileSystemWatcher and set its properties.
                 using (FileSystemWatcher watcher = new FileSystemWatcher())
                 {
+                    // Get watch folder path.
                     var sourceFileFolder = _configuration["source"];
 
+                    // Check folder existence and throw exception if it doesn't.
                     if (!Directory.Exists(sourceFileFolder))
                         throw new Exception($"{sourceFileFolder} does not exist.");
 

@@ -20,6 +20,17 @@ namespace AirlineFlightDataService.Business
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
+            // Setup Nlog Config
+            var config = new NLog.Config.LoggingConfiguration();
+
+            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = "file.txt" };
+            var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
+
+            config.AddRule(NLog.LogLevel.Info, NLog.LogLevel.Fatal, logconsole);
+            config.AddRule(NLog.LogLevel.Debug, NLog.LogLevel.Fatal, logfile);
+
+            NLog.LogManager.Configuration = config;
+
             IConfigurationRoot configuration = builder.Build();
 
             Bind<IConfiguration>().ToConstant(configuration);

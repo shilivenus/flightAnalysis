@@ -6,6 +6,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace AirlineFlightDataService.Business.EventHandler
 {
+    /// <summary>
+    /// Cope the file to raw folder, and send the file to processor
+    /// </summary>
     public class FlightEventHandler : IEventHandler
     {
         private readonly IEventProcessor _eventProcessor;
@@ -19,6 +22,13 @@ namespace AirlineFlightDataService.Business.EventHandler
             _logger = logger;
         }
 
+        /// <summary>
+        /// Delegate method for the watcher, copy file to raw folder 
+        /// after file and folder existence checking, and send the file
+        /// to processor.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="e"></param>
         public void OnCreated(object source, FileSystemEventArgs e)
         {
             var destinationFileFolder = _configuration["destination"];

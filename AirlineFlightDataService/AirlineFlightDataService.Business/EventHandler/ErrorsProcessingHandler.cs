@@ -6,6 +6,10 @@ using Microsoft.Extensions.Configuration;
 
 namespace AirlineFlightDataService.Business.EventHandler
 {
+    /// <summary>
+    /// Log the details of file causing exception, and copy this file
+    /// to exception folder.
+    /// </summary>
     public class ErrorsProcessingHandler : IErrorsProcessingHandler
     {
         private readonly IConfiguration _configuration;
@@ -17,6 +21,12 @@ namespace AirlineFlightDataService.Business.EventHandler
             _logger = logger;
         }
 
+        /// <summary>
+        /// Process errors. Log error details and copy the file to exception folder.
+        /// </summary>
+        /// <param name="filePath">Original file path</param>
+        /// <param name="fileName">File name</param>
+        /// <param name="result">The result from reader</param>
         public void ProcessingErrors(string filePath, string fileName, EventReaderResult result)
         {
             var exceptionFileFolder = _configuration["exceptionFolder"];

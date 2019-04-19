@@ -8,6 +8,10 @@ using AirlineFlightDataService.Business.Reader;
 
 namespace AirlineFlightDataService.Business.Processor
 {
+    /// <summary>
+    /// Flight Event Processor. Reading file, using different handler to process event,
+    /// and log event infomation in the end.
+    /// </summary>
     public class FlightEventProcessor : IEventProcessor
     {
         private readonly ILogger _logger;
@@ -23,6 +27,11 @@ namespace AirlineFlightDataService.Business.Processor
             _eventProcessingHandler = eventProcessingHandler;
         }
 
+        /// <summary>
+        /// Read the file. Send file to different handlers and log the event details.
+        /// </summary>
+        /// <param name="filePath">File full path include name</param>
+        /// <param name="fileName">File Name</param>
         public void Process(string filePath, string fileName)
         {
             EventDetails eventDetails = new EventDetails(new Dictionary<string, int>(), new List<string>(), 0);
