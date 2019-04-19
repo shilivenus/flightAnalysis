@@ -1,7 +1,10 @@
-﻿namespace AirlineFlightDataService.LogWriter
+﻿using System;
+
+namespace AirlineFlightDataService.LogWriter
 {
     public interface ILogWriter
     {
-        void WriteToConsole(string input);
+        void WriteInfoToConsole(string infoMessage);
+        void WriteErrorToConsole(Exception e, string errorMessage);
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using AirlineFlightDataService.Logger;
+using AirlineFlightDataService.LogWriter;
 using AirlineFlightDataService.Watcher;
 using Ninject;
 
@@ -18,7 +20,8 @@ namespace AirlineFlightDataService
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                var logger = NLog.LogManager.GetCurrentClassLogger();
+                logger.Error(e,e.Message);
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using AirlineFlightDataService.EventHandler;
+using AirlineFlightDataService.Logger;
 using Microsoft.Extensions.Configuration;
 
 namespace AirlineFlightDataService.Watcher
@@ -9,11 +10,13 @@ namespace AirlineFlightDataService.Watcher
     {
         private readonly IEventHandler _eventHandler;
         private readonly IConfiguration _configuration;
+        private readonly ILogger _logger;
 
-        public FlightWatcher(IEventHandler eventHandler, IConfiguration configuration)
+        public FlightWatcher(IEventHandler eventHandler, IConfiguration configuration, ILogger logger)
         {
             _eventHandler = eventHandler;
             _configuration = configuration;
+            _logger = logger;
         }
 
         public void Run()
@@ -43,13 +46,13 @@ namespace AirlineFlightDataService.Watcher
                     watcher.EnableRaisingEvents = true;
 
                     // Wait for the user to quit the program.
-                    Console.WriteLine("Press 'q' to quit the sample.");
+                    _logger.LogInfoToConsole("Press 'q' to quit the sample.");
                     while (Console.Read() != 'q') ;
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                _logger.LogErrorToConsole(e, e.Message);
                 throw;
             }
         }

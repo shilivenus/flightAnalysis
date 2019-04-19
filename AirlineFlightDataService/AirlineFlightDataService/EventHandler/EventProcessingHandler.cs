@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using AirlineFlightDataService.Enum;
+using AirlineFlightDataService.Logger;
 using AirlineFlightDataService.Module;
 using AirlineFlightDataService.Validator;
 using Microsoft.Extensions.Configuration;
@@ -12,11 +14,13 @@ namespace AirlineFlightDataService.EventHandler
     {
         private readonly IConfiguration _configuration;
         private readonly IValidator _validator;
+        private readonly ILogger _logger;
 
-        public EventProcessingHandler(IConfiguration configuration, IValidator validator)
+        public EventProcessingHandler(IConfiguration configuration, IValidator validator, ILogger logger)
         {
             _configuration = configuration;
             _validator = validator;
+            _logger = logger;
         }
 
         public EventDetails ProcessingEvent(EventDetails eventDetails, EventReaderResult result)
@@ -26,9 +30,13 @@ namespace AirlineFlightDataService.EventHandler
                 string timeStamp = DateTime.Now.ToString("yyyyMMddHHmmssFFF");
                 string flightEventTypeName = flightEvent.EventType.ToLower();
 
+                //GetSection Never return null, If no matching sub-section is found with the specified key, an empty IConfigurationSection will be returned.
                 var configSection = _configuration.GetSection(flightEventTypeName).GetChildren();
 
-                if (configSection != null)
+                var configSectionList = configSection.ToList();
+
+                //Check configSection is empty or not
+                if (configSectionList.Any())
                 {
                     string curatedFolder = null;
                     string exceptionFolder = null;
@@ -62,7 +70,7 @@ namespace AirlineFlightDataService.EventHandler
                         }
                         else
                         {
-                            Console.WriteLine($"{flightEventTypeName} has no curated folder setup in appsettings.json.");
+                            _logger.LogInfoToConsole($"{flightEventTypeName} has no curated folder setup in appsettings.json.");
                         }
                     }
                     else
@@ -76,13 +84,13 @@ namespace AirlineFlightDataService.EventHandler
                         }
                         else
                         {
-                            Console.WriteLine($"{flightEventTypeName} has no exception folder setup in appsettings.json.");
+                            _logger.LogInfoToConsole($"{flightEventTypeName} has no exception folder setup in appsettings.json.");
                         }
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"{flightEventTypeName} has no folder path setup in appsettings.json");
+                    _logger.LogInfoToConsole($"{flightEventTypeName} has no folder path setup in appsettings.json");
                 }
             }
 

@@ -10,6 +10,7 @@ namespace AirlineFlightDataService.Logger
         void LogEventDetails(Dictionary<string, int> eventDetailsList);
         void LogBatchProcessTime(TimeSpan timeSpent);
         void LogFailedEventDetails(List<string> failedEventList, int totalFailed);
-        void LogToConsole(string input);
+        void LogInfoToConsole(string infoMessage);
+        void LogErrorToConsole(Exception e, string errorMessage);
     }
 }

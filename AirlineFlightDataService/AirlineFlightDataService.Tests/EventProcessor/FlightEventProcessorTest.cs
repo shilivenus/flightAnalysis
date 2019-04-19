@@ -1,4 +1,5 @@
-﻿using AirlineFlightDataService.EventHandler;
+﻿using System.Collections.Generic;
+using AirlineFlightDataService.EventHandler;
 using AirlineFlightDataService.Logger;
 using AirlineFlightDataService.Module;
 using AirlineFlightDataService.Processor;
@@ -9,10 +10,10 @@ using Xunit;
 
 namespace AirlineFlightDataService.Tests.EventProcessor
 {
-    public class EventProcessorTest
+    public class FlightEventProcessorTest
     {
         [Fact]
-        public void AlwaysCallingLog()
+        public void CallLoggerOnceWhenFileCannotBeConvertedToJson()
         {
             //Arrange
             var fixture = new Fixture();
@@ -34,7 +35,7 @@ namespace AirlineFlightDataService.Tests.EventProcessor
             processor.Process(file, "test");
 
             //Assert
-            mockLogger.Verify(l => l.LogToConsole($"{file} cannot be converted to json"), Times.Once);
+            mockLogger.Verify(l => l.LogInfoToConsole($"{file} cannot be converted to json"), Times.Once);
         }
 
         [Fact]

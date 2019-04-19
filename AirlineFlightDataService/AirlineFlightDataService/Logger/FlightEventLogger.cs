@@ -18,43 +18,48 @@ namespace AirlineFlightDataService.Logger
         {
             if(eventDetailsList.Count == 0)
             {
-                _logWriter.WriteToConsole("There is no event been processed.");
+                _logWriter.WriteInfoToConsole("There is no event been processed.");
             }
             else
             {
                 foreach (var eventDetail in eventDetailsList)
                 {
-                    _logWriter.WriteToConsole($"{eventDetail.Key} has {eventDetail.Value}");
+                    _logWriter.WriteInfoToConsole($"{eventDetail.Key} has {eventDetail.Value}");
                 }
             }
         }
 
         public void LogBatchProcessTime(TimeSpan timeSpent)
         {
-            _logWriter.WriteToConsole($"This batch takes {timeSpent} in total");
+            _logWriter.WriteInfoToConsole($"This batch takes {timeSpent} in total");
         }
 
         public void LogFailedEventDetails(List<string> failedEventList, int totalFailed)
         {
             if(totalFailed == 0 || failedEventList.Count == 0)
             {
-                _logWriter.WriteToConsole("There is no failed event");
+                _logWriter.WriteInfoToConsole("There is no failed event");
             }
             else
             {
-                _logWriter.WriteToConsole($"Total Failed number is {totalFailed}");
-                _logWriter.WriteToConsole("Failed events have been listed below");
+                _logWriter.WriteInfoToConsole($"Total Failed number is {totalFailed}");
+                _logWriter.WriteInfoToConsole("Failed events have been listed below");
 
                 foreach (var failedEvent in failedEventList)
                 {
-                    _logWriter.WriteToConsole(failedEvent);
+                    _logWriter.WriteInfoToConsole(failedEvent);
                 }
             }
         }
 
-        public void LogToConsole(string input)
+        public void LogInfoToConsole(string infoMessage)
         {
-            _logWriter.WriteToConsole(input);
+            _logWriter.WriteInfoToConsole(infoMessage);
+        }
+
+        public void LogErrorToConsole(Exception e, string errorMessage)
+        {
+            _logWriter.WriteErrorToConsole(e, errorMessage);
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using AirlineFlightDataService.Logger;
 using AirlineFlightDataService.Processor;
 using Microsoft.Extensions.Configuration;
 
@@ -9,11 +10,13 @@ namespace AirlineFlightDataService.EventHandler
     {
         private readonly IEventProcessor _eventProcessor;
         private readonly IConfiguration _configuration;
+        private readonly ILogger _logger;
 
-        public FlightEventHandler(IEventProcessor eventProcessor, IConfiguration configuration)
+        public FlightEventHandler(IEventProcessor eventProcessor, IConfiguration configuration, ILogger logger)
         {
             _eventProcessor = eventProcessor;
             _configuration = configuration;
+            _logger = logger;
         }
 
         public void OnCreated(object source, FileSystemEventArgs e)
@@ -26,7 +29,7 @@ namespace AirlineFlightDataService.EventHandler
                 throw new Exception("There is no file been created.");
 
             // Specify what is done when a file is created.
-            Console.WriteLine($"File: {e.FullPath}");
+            _logger.LogInfoToConsole($"File: {e.FullPath}");
 
             if (!Directory.Exists(destinationFileFolder))
             {

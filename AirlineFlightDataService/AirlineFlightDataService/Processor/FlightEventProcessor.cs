@@ -42,7 +42,7 @@ namespace AirlineFlightDataService.Processor
             }
             else
             {
-                _logger.LogToConsole($"{filePath} cannot be converted to json");
+                _logger.LogInfoToConsole($"{filePath} cannot be converted to json");
             }            
 
             stopWatch.Stop();
